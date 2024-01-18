@@ -1,7 +1,7 @@
 # QR code generator with GUI
 Python application with a GUI to generate QR-Codes as png files with or without a central logo
 <div align="center">
-  <img src="qrcode_gui.jpg">
+  <img src="qrcode_gui_2.jpg">
 </div>
 
 ## Requirements
