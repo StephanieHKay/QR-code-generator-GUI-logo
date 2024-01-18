@@ -7,7 +7,6 @@ Python application with a GUI to generate QR-Codes as png files with or without 
 ## Requirements
 * Python 3.x
 
-
 ## Installation
 ```bash
 pip install -r requirements.txt
