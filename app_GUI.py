@@ -1,8 +1,6 @@
 import pyqrcode      #to create qr png files
 from tkinter import *     #import everything to create basic GUI
-import os      # to open qr code pngs in our programme
 from PIL import Image #to add central logo
-import numpy as np
 
 #general central logo
 import requests
