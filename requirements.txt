@@ -1,0 +1,5 @@
+pyqrcode
+pillow
+requests
+io
+numpy
