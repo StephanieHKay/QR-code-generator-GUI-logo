@@ -12,8 +12,8 @@ root = Tk()
 root.title("QR Code Generator")
 
 #ensure GUI central method
-window_width =350
-window_height = 250
+window_width =340
+window_height = 290
 root.geometry(f'{window_width}x{window_height}')
 root.eval('tk::PlaceWindow . center')
 
@@ -22,7 +22,7 @@ lb=Label(root, text="Enter a link to generate a QR code")
 lb.grid(row=0, padx=40)
 lb2=Label(root, text="Save this QR code as?")
 lb2.grid(row=2, padx=40)
-lb3=Label(root, text="Add a central logo into the QR code?\nPaste image web link")
+lb3=Label(root, text="Add a central logo into the QR code?\n\nPaste png https image web link \nor the saved png file path:")
 lb3.grid(row=4, padx=40)
 
 #input field
@@ -46,8 +46,9 @@ def clicked():
     if len(logo_link)<=4:
          url.png(f"{input_string2}_SKH_QR.png", scale=12, module_color='#000087')
          print("New QR code generated")
+         
     
-    elif len(logo_link) > 4:   
+    elif len(logo_link) > 4 and logo_link.startswith("http"):   
         with open(f"{input_string2}_SKH_QR.png", "wb") as generatedQ:
             url.png(generatedQ, scale=12, module_color='#000087')
           
@@ -59,10 +60,34 @@ def clicked():
         response = requests.get(logo_link)
         logo = Image.open(BytesIO(response.content))
 
-            
         #covert logo to RGBA format
-        new_logo = logo.convert("RGBA")
-      
+        new_logo = logo.convert("RGBA")      
+    
+        #determine logo position within QR code
+        xmin = ymin = int((width / 2) - (logo_size / 2))        
+        xmax = ymax = int((width / 2) + (logo_size / 2))
+              
+        new_logo = new_logo.resize((xmax - xmin, ymax - ymin))
+        
+        #paste logo into centre of QR code using logo as transparency mask
+        img.paste(new_logo, (xmin, ymin, xmax, ymax), new_logo)
+        img.show()   
+        img.save(f"{input_string2}_SKH_QR.png")
+        print("New QR code generated")
+
+    elif len(logo_link) > 4:
+        with open(f"{input_string2}_SKH_QR.png", "wb") as generatedQ:
+            url.png(generatedQ, scale=12, module_color='#000087')
+        
+        img= Image.open(f"{input_string2}_SKH_QR.png")
+        width, height = img.size
+        img=img.convert("RGBA")
+        logo_size = 80
+
+        logo = Image.open(logo_link)
+
+        #covert logo to RGBA format
+        new_logo = logo.convert("RGBA")      
     
         #determine logo position within QR code
         xmin = ymin = int((width / 2) - (logo_size / 2))        
